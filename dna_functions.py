@@ -15,5 +15,9 @@ class DNA:
             i += 1
         return random_dna
     
-    def generate_complementary(self, sDNA):
+    def generate_complementary(self, generated_dna):
         dic = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+        toTransform = generated_dna
+        for i in range(len(toTransform)):
+            toTransform = toTransform.replace(toTransform[i], dic[toTransform[i]])
+        return toTransform
