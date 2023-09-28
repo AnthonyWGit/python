@@ -18,7 +18,6 @@ class DNA:
     def generate_complementary(self, generated_dna):
         dic = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
         complementary_dna = ""
-        toTransform = generated_dna
         for base in generated_dna: # for i as there as as many letters to transform 
             complementary_dna += dic[base]
         return complementary_dna
