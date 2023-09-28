@@ -11,23 +11,29 @@ class Display:
         root.title("DNA bundle")      
         #elements appear in column in the order we pack them 
         # Create a Text widget for displaying the DNA string
-        self.output_text_dna = Text(root, width=30, height=1) #This part actually creates the window in memory ??
+        self.output_text_dna = Text(root, width=30, height=2) #This part actually creates the window in memory ??
         self.output_text_dna.pack() #pack allows us to put it in the main window 
 
         generate_button_dna = Button(self.root, text="Generate DNA", command=self.generate_and_print_dna)        
         generate_button_dna.pack()
 
-        self.output_text_dna_com = Text(root, width=30, height=1)
+        self.output_text_dna_com = Text(root, width=30, height=2)
         self.output_text_dna_com.pack()
         # this button has to not work in when no dna is generated
         generate_button_dna_com = Button(self.root, text="Generate complementary DNA", command=self.generate_complementary)        
         generate_button_dna_com.pack()
 
-        self.output_text_rna = Text(root, width=30, height=1)
+        self.output_text_rna = Text(root, width=30, height=2)
         self.output_text_rna.pack()
 
-        generate_button_rna = Button(self.root, text="Generate RNA", command=self.generate_rna)        
+        generate_button_rna = Button(self.root, text="Generate Complementary RNA", command=self.generate_rna)        
         generate_button_rna.pack()
+
+        self.output_text_rna_com = Text(root, width=30, height=2)
+        self.output_text_rna_com.pack()
+
+        generate_button_rna_com = Button(self.root, text="Generate Complementary RNA", command=self.generate_rna_com)        
+        generate_button_rna_com.pack()
 
     def generate_and_print_dna(self):
         dna = DNA() #there is no new Object like in php
@@ -50,10 +56,18 @@ class Display:
 
     def generate_rna(self):
         rna = RNA()
+        global generated_rna
         generated_rna = rna.generate_rna_new(generated_dna)
-
         self.output_text_rna.delete("1.0", "end") #delete the first line in the widget
         self.output_text_rna.insert("1.0", generated_rna) #insert in the first line at the column 0 in the widget
+
+
+    def generate_rna_com(self):
+        rna = RNA()
+        generated_rna_com = rna.generate_rna_com(generated_rna)
+
+        self.output_text_rna_com.delete("1.0", "end") #delete the first line in the widget
+        self.output_text_rna_com.insert("1.0", generated_rna_com) #insert in the first line at the column 0 in the widget
 
 if __name__ == "__main__":
     root = Tk()
