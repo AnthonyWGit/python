@@ -21,3 +21,4 @@ class DNA:
         for i in range(len(toTransform)):
             toTransform = toTransform.replace(toTransform[i], dic[toTransform[i]])
         return toTransform
+    
