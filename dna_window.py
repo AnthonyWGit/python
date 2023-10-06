@@ -6,6 +6,10 @@ from rna_functions import RNA
 
 class Display:
     def __init__(self, root):
+
+        self.generated_dna = None  # This is called a sentinel variable
+        self.generated_rna = None  # Second sentinal variable
+
         self.root = root
         root.geometry("500x500")
         root.title("DNA bundle")      
@@ -26,7 +30,7 @@ class Display:
         self.output_text_rna = Text(root, width=30, height=2)
         self.output_text_rna.pack()
 
-        generate_button_rna = Button(self.root, text="Generate Complementary RNA", command=self.generate_rna)        
+        generate_button_rna = Button(self.root, text="Generate RNA", command=self.generate_rna)        
         generate_button_rna.pack()
 
         self.output_text_rna_com = Text(root, width=30, height=2)
@@ -35,29 +39,46 @@ class Display:
         generate_button_rna_com = Button(self.root, text="Generate Complementary RNA", command=self.generate_rna_com)        
         generate_button_rna_com.pack()
 
+        reset_button = Button(self.root, text="Reset", command=self.reset)        
+        reset_button.pack()
+
+    def reset(self):
+        # Clear the Text widget before resetting
+        self.output_text_dna.delete("1.0", "end")
+        self.output_text_dna_com.delete("1.0", "end")
+        self.output_text_rna.delete("1.0", "end")
+        self.output_text_rna_com.delete("1.0", "end")
+
+        self.generated_dna = None
+        self.generated_rna = None
+
+
     def generate_and_print_dna(self):
         dna = DNA() #there is no new Object like in php
-        global generated_dna #global var declaration 
-        generated_dna = dna.generate_dna()
-        print(generated_dna) #python has no echo but uses print() kinda like C 
+        # global generated_dna #global var declaration 
+        self.generated_dna = dna.generate_dna()
+        print(self.generated_dna) #python has no echo but uses print() kinda like C 
 
         # Clear the Text widget before displaying the new result
         self.output_text_dna.delete("1.0", "end") #delete the first line in the widget
 
         # Insert the DNA string into the Text widget
-        self.output_text_dna.insert("1.0", generated_dna) #insert in the first line at the column 0 in the widget
+        self.output_text_dna.insert("1.0", self.generated_dna) #insert in the first line at the column 0 in the widget
+        return(self.generated_dna)
     
     def generate_complementary(self):
         dna = DNA()
-        generated_dna_com = dna.generate_complementary(generated_dna)
-
-        self.output_text_dna_com.delete("1.0", "end") #delete the first line in the widget
-        self.output_text_dna_com.insert("1.0", generated_dna_com) #insert in the first line at the column 0 in the widget
+        if self.generated_dna is None: #Null equivalent, need to use keyword is
+            print("vide")
+        else:       
+            generated_dna_com = dna.generate_complementary(self.generated_dna)
+            self.output_text_dna_com.delete("1.0", "end") #delete the first line in the widget
+            self.output_text_dna_com.insert("1.0", generated_dna_com) #insert in the first line at the column 0 in the widget
 
     def generate_rna(self):
         rna = RNA()
         global generated_rna
-        generated_rna = rna.generate_rna_new(generated_dna)
+        generated_rna = rna.generate_rna_new(self.generated_dna)
         self.output_text_rna.delete("1.0", "end") #delete the first line in the widget
         self.output_text_rna.insert("1.0", generated_rna) #insert in the first line at the column 0 in the widget
 
