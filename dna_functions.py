@@ -21,4 +21,3 @@ class DNA:
         for base in generated_dna: # for i as there as as many letters to transform 
             complementary_dna += dic[base] #we happen the corresponding base to the string , + means we move to next letter ? 
         return complementary_dna
-    
