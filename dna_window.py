@@ -1,5 +1,6 @@
 #This file will handle all things related to tkinter
 from tkinter import * #Import all functions from tkinter
+from tkinter import messagebox
 from dna_functions import DNA
 from rna_functions import RNA
 #creating a window on script execution
@@ -70,6 +71,8 @@ class Display:
         dna = DNA()
         if self.generated_dna is None: #Null equivalent, need to use keyword is
             print("vide")
+            messagebox.showerror("Action failed", "You must generate a dna strand first")
+
         else:       
             generated_dna_com = dna.generate_complementary(self.generated_dna)
             self.output_text_dna_com.delete("1.0", "end") #delete the first line in the widget
