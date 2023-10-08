@@ -10,6 +10,8 @@ class Display:
 
         self.generated_dna = None  # This is called a sentinel variable
         self.generated_rna = None  # Second sentinal variable
+        self.authorized_chars = ["A","T","C","G"]
+        self.error = False
 
         self.root = root
         root.geometry("500x500")
@@ -52,6 +54,7 @@ class Display:
 
         self.generated_dna = None
         self.generated_rna = None
+        self.error = False
 
 
     def generate_and_print_dna(self):
@@ -69,11 +72,19 @@ class Display:
     
     def generate_complementary(self):
         dna = DNA()
-        if self.generated_dna is None: #Null equivalent, need to use keyword is
-            print("vide")
-            messagebox.showerror("Action failed", "You must generate a dna strand first")
+        self.generated_dna = self.output_text_dna.get("1.0", "end").strip()
+        if not self.generated_dna:
+            messagebox.showerror("Action failed", "You must generate a dna strand first or write it yourself.")
+        else:
+            for char in self.generated_dna:
+                if char in self.authorized_chars:
+                    print("no error detected")
+                else:
+                    self.error = True
+                    messagebox.showerror("Action failed", "Valid nucleotides are A T C G.")
+                    break
 
-        else:       
+        if self.error is False:       
             generated_dna_com = dna.generate_complementary(self.generated_dna)
             self.output_text_dna_com.delete("1.0", "end") #delete the first line in the widget
             self.output_text_dna_com.insert("1.0", generated_dna_com) #insert in the first line at the column 0 in the widget
